@@ -1,0 +1,1437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>NL TIERS • ELITE</title>
+
+<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+html{
+scroll-behavior:smooth;
+}
+
+body{
+
+font-family:'Inter',sans-serif;
+
+background:
+radial-gradient(circle at top left,#00ff8850,transparent 20%),
+radial-gradient(circle at bottom right,#00d0ff40,transparent 20%),
+radial-gradient(circle at center,#7b5cff30,transparent 40%),
+#030712;
+
+color:white;
+
+overflow-x:hidden;
+
+min-height:100vh;
+}
+
+/* BACKGROUND */
+
+.blur1,.blur2,.blur3{
+
+position:fixed;
+
+border-radius:50%;
+
+filter:blur(180px);
+
+z-index:-1;
+}
+
+.blur1{
+width:700px;
+height:700px;
+background:#00ff88;
+top:-300px;
+left:-300px;
+opacity:0.15;
+}
+
+.blur2{
+width:800px;
+height:800px;
+background:#00d0ff;
+bottom:-350px;
+right:-350px;
+opacity:0.12;
+}
+
+.blur3{
+width:500px;
+height:500px;
+background:#7b5cff;
+top:300px;
+right:-200px;
+opacity:0.12;
+}
+
+/* NAVBAR */
+
+.nav{
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+padding:28px 60px;
+
+position:sticky;
+
+top:0;
+
+z-index:999;
+
+background:rgba(3,7,18,0.72);
+
+backdrop-filter:blur(25px);
+
+border-bottom:
+1px solid rgba(255,255,255,0.05);
+}
+
+.logo{
+
+font-size:64px;
+
+font-weight:900;
+
+letter-spacing:2px;
+}
+
+.logo span{
+color:#00ff88;
+}
+
+.navRight{
+
+display:flex;
+
+gap:16px;
+}
+
+.navRight input{
+
+padding:18px 20px;
+
+border:none;
+
+outline:none;
+
+border-radius:20px;
+
+background:
+rgba(255,255,255,0.05);
+
+border:
+1px solid rgba(255,255,255,0.08);
+
+color:white;
+
+font-size:16px;
+
+width:220px;
+}
+
+.navRight button{
+
+padding:18px 26px;
+
+border:none;
+
+border-radius:20px;
+
+font-weight:900;
+
+cursor:pointer;
+
+background:
+linear-gradient(
+135deg,
+#00ff88,
+#00d0ff
+);
+
+font-size:15px;
+
+transition:0.25s;
+}
+
+.navRight button:hover{
+
+transform:scale(1.05);
+
+box-shadow:
+0 0 40px rgba(0,255,136,0.35);
+}
+
+/* HERO */
+
+.hero{
+
+padding:120px 20px 80px;
+
+text-align:center;
+}
+
+.hero h1{
+
+font-size:210px;
+
+font-weight:900;
+
+line-height:1;
+
+background:
+linear-gradient(
+90deg,
+white,
+#00ff88,
+#00d0ff
+);
+
+-webkit-background-clip:text;
+
+-webkit-text-fill-color:transparent;
+}
+
+.hero p{
+
+margin-top:20px;
+
+font-size:28px;
+
+color:#98a4bb;
+}
+
+/* STATS */
+
+.stats{
+
+display:flex;
+
+justify-content:center;
+
+gap:30px;
+
+flex-wrap:wrap;
+
+padding:20px;
+}
+
+.stat{
+
+width:320px;
+
+padding:40px;
+
+border-radius:40px;
+
+background:
+rgba(255,255,255,0.05);
+
+border:
+1px solid rgba(255,255,255,0.08);
+
+backdrop-filter:blur(30px);
+
+text-align:center;
+
+transition:0.3s;
+
+position:relative;
+
+overflow:hidden;
+}
+
+.stat::before{
+
+content:"";
+
+position:absolute;
+
+width:180px;
+height:180px;
+
+background:
+radial-gradient(circle,#00ff8830,transparent);
+
+top:-50px;
+right:-50px;
+}
+
+.stat:hover{
+
+transform:translateY(-10px);
+
+border:
+1px solid rgba(0,255,136,0.35);
+
+box-shadow:
+0 0 50px rgba(0,255,136,0.15);
+}
+
+.stat h2{
+
+font-size:75px;
+
+font-weight:900;
+
+color:#00ff88;
+}
+
+.stat p{
+
+margin-top:10px;
+
+font-size:18px;
+
+color:#98a4bb;
+}
+
+/* SEARCH */
+
+.searchBox{
+
+max-width:1200px;
+
+margin:auto;
+
+padding:40px 20px;
+}
+
+.searchBox input{
+
+width:100%;
+
+padding:30px;
+
+border-radius:35px;
+
+background:
+rgba(255,255,255,0.05);
+
+border:
+1px solid rgba(255,255,255,0.08);
+
+backdrop-filter:blur(30px);
+
+color:white;
+
+font-size:20px;
+
+outline:none;
+}
+
+/* FILTERS */
+
+.filters{
+
+display:flex;
+
+flex-wrap:wrap;
+
+justify-content:center;
+
+gap:18px;
+
+padding:10px 20px 50px;
+}
+
+.filters button{
+
+padding:16px 24px;
+
+border:none;
+
+border-radius:20px;
+
+font-weight:800;
+
+cursor:pointer;
+
+background:
+rgba(255,255,255,0.05);
+
+border:
+1px solid rgba(255,255,255,0.08);
+
+color:white;
+
+font-size:15px;
+
+transition:0.25s;
+}
+
+.filters button:hover{
+
+background:#00ff88;
+
+color:black;
+
+transform:translateY(-4px);
+}
+
+/* ADMIN */
+
+.admin{
+
+display:none;
+
+width:95%;
+
+max-width:1800px;
+
+margin:auto;
+
+margin-bottom:50px;
+
+padding:45px;
+
+border-radius:45px;
+
+background:
+rgba(255,255,255,0.05);
+
+border:
+1px solid rgba(255,255,255,0.08);
+
+backdrop-filter:blur(30px);
+}
+
+.admin h2{
+
+font-size:55px;
+
+margin-bottom:25px;
+}
+
+.adminGrid{
+
+display:grid;
+
+grid-template-columns:
+repeat(auto-fit,minmax(250px,1fr));
+
+gap:22px;
+}
+
+.adminGrid input,
+.adminGrid select{
+
+padding:20px;
+
+border:none;
+
+outline:none;
+
+border-radius:20px;
+
+background:#111827;
+
+border:
+1px solid rgba(255,255,255,0.08);
+
+color:white;
+
+font-size:16px;
+}
+
+.adminGrid button{
+
+border:none;
+
+border-radius:20px;
+
+background:
+linear-gradient(
+135deg,
+#00ff88,
+#00d0ff
+);
+
+font-weight:900;
+
+cursor:pointer;
+
+font-size:16px;
+}
+
+/* LEADERBOARD */
+
+#leaderboard{
+
+width:100%;
+
+max-width:1800px;
+
+margin:auto;
+
+padding:20px;
+
+display:flex;
+
+flex-direction:column;
+
+gap:40px;
+}
+
+/* PLAYER */
+
+.player{
+
+padding:40px;
+
+border-radius:50px;
+
+background:
+rgba(255,255,255,0.05);
+
+border:
+1px solid rgba(255,255,255,0.08);
+
+backdrop-filter:blur(35px);
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+cursor:pointer;
+
+transition:0.35s;
+
+position:relative;
+
+overflow:hidden;
+}
+
+.player::before{
+
+content:"";
+
+position:absolute;
+
+width:320px;
+height:320px;
+
+background:
+radial-gradient(circle,#00ff8835,transparent);
+
+top:-120px;
+right:-120px;
+}
+
+.player:hover{
+
+transform:
+translateY(-12px)
+scale(1.01);
+
+border:
+1px solid rgba(0,255,136,0.4);
+
+box-shadow:
+0 0 70px rgba(0,255,136,0.16);
+}
+
+.playerLeft{
+
+display:flex;
+
+align-items:center;
+
+gap:30px;
+}
+
+.rank{
+
+width:120px;
+height:120px;
+
+border-radius:35px;
+
+background:
+linear-gradient(
+135deg,
+#ffd54f,
+#ff9800
+);
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+font-size:46px;
+
+font-weight:900;
+
+color:black;
+
+box-shadow:
+0 0 40px rgba(255,193,7,0.35);
+}
+
+.avatar{
+
+width:140px;
+height:140px;
+
+border-radius:42px;
+
+background:
+linear-gradient(
+135deg,
+#00ff88,
+#00d0ff
+);
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+font-size:68px;
+
+font-weight:900;
+
+color:black;
+
+box-shadow:
+0 0 50px rgba(0,255,136,0.25);
+}
+
+.playerInfo h2{
+
+font-size:65px;
+
+font-weight:900;
+}
+
+.playerInfo p{
+
+margin-top:12px;
+
+font-size:20px;
+
+color:#98a4bb;
+}
+
+.points{
+
+text-align:right;
+}
+
+.points h3{
+
+font-size:85px;
+
+font-weight:900;
+
+color:#00ff88;
+}
+
+.points p{
+
+margin-top:12px;
+
+font-size:18px;
+
+color:#98a4bb;
+}
+
+/* MODAL */
+
+.modal{
+
+position:fixed;
+
+inset:0;
+
+background:
+rgba(0,0,0,0.82);
+
+display:none;
+
+justify-content:center;
+
+align-items:center;
+
+backdrop-filter:blur(18px);
+
+z-index:99999;
+}
+
+.modalContent{
+
+width:94%;
+
+max-width:1250px;
+
+background:
+linear-gradient(
+145deg,
+#111827,
+#0b1020
+);
+
+padding:60px;
+
+border-radius:55px;
+
+border:
+1px solid rgba(255,255,255,0.08);
+
+max-height:92vh;
+
+overflow:auto;
+}
+
+.modalTop{
+
+text-align:center;
+
+margin-bottom:45px;
+}
+
+.bigAvatar{
+
+width:220px;
+height:220px;
+
+border-radius:65px;
+
+background:
+linear-gradient(
+135deg,
+#00ff88,
+#00d0ff
+);
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+font-size:100px;
+
+font-weight:900;
+
+color:black;
+
+margin:auto;
+
+margin-bottom:25px;
+
+box-shadow:
+0 0 70px rgba(0,255,136,0.25);
+}
+
+.modalName{
+
+font-size:110px;
+
+font-weight:900;
+}
+
+.totalPoints{
+
+margin-top:15px;
+
+font-size:36px;
+
+color:#00ff88;
+}
+
+/* TIER GRID */
+
+.tiers{
+
+display:grid;
+
+grid-template-columns:
+repeat(auto-fit,minmax(250px,1fr));
+
+gap:28px;
+}
+
+.tier{
+
+padding:35px;
+
+border-radius:35px;
+
+background:
+rgba(255,255,255,0.05);
+
+border:
+1px solid rgba(255,255,255,0.08);
+
+text-align:center;
+
+transition:0.25s;
+
+position:relative;
+
+overflow:hidden;
+}
+
+.tier::before{
+
+content:"";
+
+position:absolute;
+
+width:150px;
+height:150px;
+
+background:
+radial-gradient(circle,#00ff8825,transparent);
+
+top:-40px;
+right:-40px;
+}
+
+.tier:hover{
+
+transform:translateY(-8px);
+
+border:
+1px solid rgba(0,255,136,0.35);
+
+box-shadow:
+0 0 45px rgba(0,255,136,0.12);
+}
+
+.tier h3{
+
+font-size:24px;
+
+color:#98a4bb;
+}
+
+.tier h2{
+
+margin-top:15px;
+
+font-size:65px;
+
+font-weight:900;
+
+color:#00ff88;
+}
+
+.tier p{
+
+margin-top:12px;
+
+font-weight:700;
+
+font-size:18px;
+
+color:#ffc107;
+}
+
+.deleteBtn{
+
+margin-top:20px;
+
+width:100%;
+
+padding:16px;
+
+border:none;
+
+border-radius:18px;
+
+background:red;
+
+color:white;
+
+font-weight:900;
+
+cursor:pointer;
+
+font-size:16px;
+}
+
+.closeBtn{
+
+width:100%;
+
+margin-top:40px;
+
+padding:22px;
+
+border:none;
+
+border-radius:24px;
+
+background:
+linear-gradient(
+135deg,
+#00ff88,
+#00d0ff
+);
+
+font-size:20px;
+
+font-weight:900;
+
+cursor:pointer;
+}
+
+/* MOBILE */
+
+@media(max-width:1000px){
+
+.hero h1{
+font-size:95px;
+}
+
+.player{
+flex-direction:column;
+align-items:flex-start;
+gap:30px;
+}
+
+.points{
+text-align:left;
+}
+
+.nav{
+flex-direction:column;
+gap:18px;
+padding:20px;
+}
+
+.modalName{
+font-size:60px;
+}
+
+.bigAvatar{
+width:160px;
+height:160px;
+font-size:70px;
+}
+
+.playerInfo h2{
+font-size:40px;
+}
+
+.points h3{
+font-size:55px;
+}
+
+}
+
+</style>
+
+</head>
+<body>
+
+<div class="blur1"></div>
+<div class="blur2"></div>
+<div class="blur3"></div>
+
+<div class="nav">
+
+<div class="logo">
+NL<span>TIERS</span>
+</div>
+
+<div class="navRight">
+
+<input
+type="password"
+id="password"
+placeholder="Admin Code"
+>
+
+<button onclick="login()">
+LOGIN
+</button>
+
+</div>
+
+</div>
+
+<div class="hero">
+
+<h1>Elite</h1>
+
+<p>The best Minecraft competitive leaderboard</p>
+
+</div>
+
+<div class="stats">
+
+<div class="stat">
+<h2 id="playersCount">0</h2>
+<p>Total Players</p>
+</div>
+
+<div class="stat">
+<h2 id="tiersCount">0</h2>
+<p>Total Tiers</p>
+</div>
+
+<div class="stat">
+<h2>10</h2>
+<p>Gamemodes</p>
+</div>
+
+</div>
+
+<div class="searchBox">
+
+<input
+type="text"
+id="searchInput"
+placeholder="Search players..."
+onkeyup="loadPlayers()"
+>
+
+</div>
+
+<div class="filters">
+
+<button onclick="setFilter('ALL')">ALL</button>
+<button onclick="setFilter('Mace')">MACE</button>
+<button onclick="setFilter('Sword')">SWORD</button>
+<button onclick="setFilter('Spear')">SPEAR</button>
+<button onclick="setFilter('UHC')">UHC</button>
+<button onclick="setFilter('Axe')">AXE</button>
+<button onclick="setFilter('Speed')">SPEED</button>
+<button onclick="setFilter('Vanilla')">VANILLA</button>
+<button onclick="setFilter('DIA SMP')">DIA SMP</button>
+<button onclick="setFilter('Cart')">CART</button>
+<button onclick="setFilter('Creeper')">CREEPER</button>
+
+</div>
+
+<div class="admin" id="adminPanel">
+
+<h2>Admin Panel</h2>
+
+<div class="adminGrid">
+
+<input
+type="text"
+id="playerName"
+placeholder="Player Name"
+>
+
+<select id="gamemode">
+
+<option>Mace</option>
+<option>Sword</option>
+<option>Spear</option>
+<option>UHC</option>
+<option>Axe</option>
+<option>Speed</option>
+<option>Vanilla</option>
+<option>DIA SMP</option>
+<option>Cart</option>
+<option>Creeper</option>
+
+</select>
+
+<select id="tier">
+
+<option>HT1</option>
+<option>LT1</option>
+<option>HT2</option>
+<option>LT2</option>
+<option>HT3</option>
+<option>LT3</option>
+<option>HT4</option>
+<option>LT4</option>
+<option>HT5</option>
+<option>LT5</option>
+
+</select>
+
+<button onclick="addPlayer()">
+ADD TIER
+</button>
+
+</div>
+
+</div>
+
+<div id="leaderboard"></div>
+
+<div class="modal" id="modal">
+
+<div class="modalContent">
+
+<div class="modalTop">
+
+<div class="bigAvatar" id="bigAvatar">
+A
+</div>
+
+<div class="modalName" id="modalName">
+Player
+</div>
+
+<div class="totalPoints" id="totalPoints">
+0 Points
+</div>
+
+</div>
+
+<div class="tiers" id="modalTiers"></div>
+
+<button
+class="closeBtn"
+onclick="closeModal()"
+>
+Close
+</button>
+
+</div>
+
+</div>
+
+<script>
+
+const SUPABASE_URL =
+"https://mgtwbthpqinyxrcnglwt.supabase.co";
+
+const SUPABASE_KEY =
+"sb_publishable_kj1HG03vn4ZMqDgC8zWzhA_CRNDty9O";
+
+const supabaseClient =
+supabase.createClient(
+SUPABASE_URL,
+SUPABASE_KEY
+);
+
+const ADMIN_PASSWORD = "5676";
+
+let isAdmin = false;
+
+let currentFilter = "ALL";
+
+let allData = [];
+
+const tierPoints = {
+
+"LT5":1,
+"HT5":2,
+"LT4":5,
+"HT4":10,
+"LT3":12,
+"HT3":15,
+"LT2":18,
+"HT2":20,
+"LT1":25,
+"HT1":30
+
+};
+
+function login(){
+
+const pass =
+document.getElementById("password").value;
+
+if(pass === ADMIN_PASSWORD){
+
+isAdmin = true;
+
+document
+.getElementById("adminPanel")
+.style.display = "block";
+
+alert("Admin Logged In");
+
+}else{
+
+alert("Wrong Password");
+
+}
+
+}
+
+function setFilter(mode){
+
+currentFilter = mode;
+
+loadPlayers();
+
+}
+
+async function addPlayer(){
+
+const player =
+document.getElementById("playerName").value;
+
+const gamemode =
+document.getElementById("gamemode").value;
+
+const tier =
+document.getElementById("tier").value;
+
+if(player === "") return;
+
+await supabaseClient
+.from("players")
+.insert([
+{
+player,
+gamemode,
+tier
+}
+]);
+
+document
+.getElementById("playerName")
+.value = "";
+
+loadPlayers();
+
+}
+
+async function loadPlayers(){
+
+const { data,error } =
+await supabaseClient
+.from("players")
+.select("*");
+
+if(error){
+
+console.log(error);
+
+return;
+
+}
+
+allData = data;
+
+document
+.getElementById("tiersCount")
+.innerHTML =
+data.length;
+
+const uniquePlayers =
+[...new Set(data.map(x=>x.player))];
+
+document
+.getElementById("playersCount")
+.innerHTML =
+uniquePlayers.length;
+
+const board =
+document.getElementById("leaderboard");
+
+board.innerHTML = "";
+
+let grouped = {};
+
+const search =
+document
+.getElementById("searchInput")
+.value
+.toLowerCase();
+
+data.forEach(entry=>{
+
+if(
+currentFilter !== "ALL" &&
+entry.gamemode !== currentFilter
+){
+return;
+}
+
+if(
+!entry.player
+.toLowerCase()
+.includes(search)
+){
+return;
+}
+
+if(!grouped[entry.player]){
+
+grouped[entry.player] = 0;
+
+}
+
+grouped[entry.player] +=
+tierPoints[entry.tier];
+
+});
+
+const sorted =
+Object.entries(grouped)
+.sort((a,b)=>b[1]-a[1]);
+
+sorted.forEach(([name,points],index)=>{
+
+board.innerHTML += `
+
+<div
+class="player"
+onclick="openPlayer('${name}')"
+>
+
+<div class="playerLeft">
+
+<div class="rank">
+#${index+1}
+</div>
+
+<div class="avatar">
+${name.charAt(0).toUpperCase()}
+</div>
+
+<div class="playerInfo">
+
+<h2>${name}</h2>
+
+<p>Elite Competitive Minecraft Player</p>
+
+</div>
+
+</div>
+
+<div class="points">
+
+<h3>${points}</h3>
+
+<p>Total Points</p>
+
+</div>
+
+</div>
+
+`;
+
+});
+
+}
+
+function openPlayer(player){
+
+document
+.getElementById("modal")
+.style.display = "flex";
+
+document
+.getElementById("modalName")
+.innerHTML = player;
+
+document
+.getElementById("bigAvatar")
+.innerHTML =
+player.charAt(0).toUpperCase();
+
+const stats =
+allData.filter(
+x=>x.player===player
+);
+
+let total = 0;
+
+let html = "";
+
+stats.forEach(entry=>{
+
+total += tierPoints[entry.tier];
+
+html += `
+
+<div class="tier">
+
+<h3>${entry.gamemode}</h3>
+
+<h2>${entry.tier}</h2>
+
+<p>
+${tierPoints[entry.tier]} Points
+</p>
+
+${isAdmin ? `
+
+<button
+class="deleteBtn"
+onclick="deleteTier(${entry.id})"
+>
+Delete Tier
+</button>
+
+` : ""}
+
+</div>
+
+`;
+
+});
+
+document
+.getElementById("totalPoints")
+.innerHTML =
+total + " Total Points";
+
+document
+.getElementById("modalTiers")
+.innerHTML = html;
+
+}
+
+async function deleteTier(id){
+
+const sure =
+confirm("Delete this tier?");
+
+if(!sure) return;
+
+await supabaseClient
+.from("players")
+.delete()
+.eq("id",id);
+
+closeModal();
+
+loadPlayers();
+
+}
+
+function closeModal(){
+
+document
+.getElementById("modal")
+.style.display = "none";
+
+}
+
+loadPlayers();
+
+</script>
+
+</body>
+  </html>
